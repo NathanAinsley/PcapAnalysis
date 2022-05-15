@@ -16,6 +16,7 @@ import datetime
 import csv
 import tkinter as tk
 import tkinter.filedialog as fd
+import os
 
 
 def BytesOverTimeGraph(file):
@@ -41,7 +42,7 @@ def BytesOverTimeGraph(file):
     plt.xlabel("Time")
     plt.xticks(rotation=90)
     plt.ylabel("Size of Data")
-    plt.title(f"{file} Packet Size over Time")
+    plt.title(f"{FormatFile(file)} Packet Size over Time")
     figfile = RemovePcapType(file)+"_SizeLine.PNG"
     Save_Wipe(figfile)
     
@@ -70,7 +71,7 @@ def BarIPChart(file):
     plt.bar(xD,yD,width=0.8,color=colours)
     plt.xlabel("Source IP")
     plt.ylabel("Amount of Packets")
-    plt.title(f"{file} Amount of packets from Src IP")
+    plt.title(f"{FormatFile(file)} Amount of packets from Src IP")
     figfile = RemovePcapType(file)+"_bar.PNG"
     Save_Wipe(figfile)
 def Save_Wipe(figfile):
@@ -81,7 +82,11 @@ def RemovePcapType(file):
     size=len(file)
     mod_string=file[:size-5]
     return mod_string
-
+def FormatFile(file):
+    head, tail = os.path.split(file)
+    print(head)
+    print(tail)
+    return tail
 def portcounter(file):
     f = open(file, "rb")
     pcap = dpkt.pcap.Reader(f)
